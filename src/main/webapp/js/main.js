@@ -610,9 +610,6 @@
         overlay.addEventListener('click', () => {
             overlay.classList.add('splash-fade-out');
             document.body.style.overflow = '';
-            try {
-                sessionStorage.setItem('bookstore_splash_seen', 'true');
-            } catch (e) {}
             setTimeout(() => overlay.classList.add('hidden'), 650);
         });
 
@@ -624,9 +621,13 @@
             });
         }
 
-        // Check session storage so it doesn't replay on every single internal click
-        const hasSeenSplash = sessionStorage.getItem('bookstore_splash_seen');
-        if (!hasSeenSplash) {
+        // Play whenever landing on or refreshing the homepage
+        const isHomePage = document.querySelector('.hero-section') !== null ||
+                           window.location.pathname.endsWith('/books') ||
+                           window.location.pathname.endsWith('/') ||
+                           window.location.pathname.endsWith('/index.jsp');
+
+        if (isHomePage) {
             runAnimation();
         } else {
             overlay.classList.add('hidden');
