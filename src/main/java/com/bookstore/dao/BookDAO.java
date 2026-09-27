@@ -41,8 +41,14 @@ public class BookDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("[BookDAO] searchBooks SQL error: " + e.getMessage());
+            DBInitializer.initializeDatabase();
         }
+
+        if (books.isEmpty() && (keyword == null || keyword.trim().isEmpty()) && (category == null || category.trim().isEmpty() || "All".equalsIgnoreCase(category))) {
+            DBInitializer.initializeDatabase();
+        }
+
         return books;
     }
 
