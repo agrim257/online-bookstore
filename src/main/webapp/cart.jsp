@@ -54,7 +54,7 @@
         </div>
 
         <!-- 2-Column Cart Layout -->
-        <div style="display: grid; grid-template-columns: 1fr 360px; gap: 2rem; align-items: start;">
+        <div class="cart-layout-grid">
             
             <!-- Items Table -->
             <div class="card" style="padding: 0; overflow: hidden;">
@@ -133,7 +133,7 @@
                     </table>
                 </div>
 
-                <div style="padding: 1.25rem 1.5rem; background: var(--bg-surface-elevated); border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <div class="cart-table-footer" style="padding: 1.25rem 1.5rem; background: var(--bg-surface-elevated); border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
                     <a href="<%= request.getContextPath() %>/books" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Continue Shopping
                     </a>

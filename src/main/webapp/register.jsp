@@ -9,8 +9,8 @@
 <body>
 <jsp:include page="header.jsp" />
 
-<div class="container" style="max-width: 540px; margin-top: 2.5rem;">
-    <div class="card" style="padding: 2.5rem; position: relative; overflow: hidden;">
+<div class="container" style="max-width: 540px; margin-top: 2rem;">
+    <div class="card auth-card" style="padding: 2.5rem; position: relative; overflow: hidden;">
         <!-- Accent line -->
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent-success), var(--accent-primary));"></div>
 

@@ -21,7 +21,7 @@
                 <span class="hero-badge">
                     <i class="fas fa-sparkles"></i> Curated Literary Collection
                 </span>
-                <h1 class="hero-title">Expand Your Horizons.<br>One Book At A Time.</h1>
+                <h1 class="hero-title">Expand Your Horizons.<br class="hero-br"> One Book At A Time.</h1>
                 <p class="hero-subtitle">
                     Explore an extraordinary selection of software engineering masterclasses, timeless literary masterpieces, and thought-provoking histories in authentic Indian editions.
                 </p>

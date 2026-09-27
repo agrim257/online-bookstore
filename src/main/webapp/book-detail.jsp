@@ -25,8 +25,8 @@
             <span style="color: var(--text-primary); font-weight: 600;"><%= book.getTitle() %></span>
         </nav>
 
-        <div class="card" style="padding: 2.5rem;">
-            <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 3rem; align-items: start;">
+        <div class="card book-detail-card">
+            <div class="book-detail-grid">
                 
                 <!-- Left: 3D Hardcover Book Mockup Display -->
                 <div style="position: relative;">

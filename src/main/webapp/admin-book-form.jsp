@@ -28,7 +28,7 @@
         </a>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; align-items: start;">
+    <div class="admin-form-grid">
         
         <!-- Form Column -->
         <div class="card" style="padding: 2.25rem;">
@@ -62,7 +62,7 @@
                     <input type="text" id="adminBookCat" name="category" required value="<%= catVal %>" placeholder="e.g. Technology, Fiction, History, Science" class="form-control">
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-row">
                     <div class="form-group">
                         <label><i class="fas fa-indian-rupee-sign"></i> Price (₹) *</label>
                         <input type="number" id="adminBookPrice" step="0.01" min="0" name="price" required value="<%= isEdit ? String.format("%.2f", priceVal) : "499.00" %>" class="form-control">

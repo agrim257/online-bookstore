@@ -9,8 +9,8 @@
 <body>
 <jsp:include page="header.jsp" />
 
-<div class="container" style="max-width: 480px; margin-top: 3.5rem;">
-    <div class="card" style="padding: 2.5rem; position: relative; overflow: hidden;">
+<div class="container" style="max-width: 480px; margin-top: 2.5rem;">
+    <div class="card auth-card" style="padding: 2.5rem; position: relative; overflow: hidden;">
         <!-- Glowing accent edge -->
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));"></div>
 

@@ -83,10 +83,18 @@
             <% } %>
         </div>
 
-        <!-- Mobile Nav Toggle -->
-        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open Navigation Menu">
-            <i class="fas fa-bars"></i>
-        </button>
+        <!-- Mobile Actions (Cart + Menu Toggle) -->
+        <div class="mobile-actions">
+            <% if (currentUser == null || !"ADMIN".equalsIgnoreCase(currentUser.getRole())) { %>
+                <a href="<%= request.getContextPath() %>/cart" class="mobile-cart-btn" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count-badge <%= cartCount > 0 ? "has-items" : "" %>" id="mobileCartCount"><%= cartCount %></span>
+                </a>
+            <% } %>
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open Navigation Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </div>
 </nav>
 
