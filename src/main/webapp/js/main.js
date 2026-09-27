@@ -526,35 +526,26 @@
     }
 
     // ==========================================
-    // 11. 3D BOOK OPENING EXPERIENCE & AUDIO
+    // 11. AUTOMATED 3D BOOK SPLASH MOTION GRAPHIC
     // ==========================================
-    function initBookOpeningExperience() {
-        const overlay = document.getElementById('bookOpeningOverlay');
-        const introBook = document.getElementById('introBook');
-        const frontCover = document.getElementById('bookFrontCover');
-        const btnToggle = document.getElementById('btnToggleBookState');
-        const btnText = document.getElementById('toggleBookBtnText');
-        const btnSkip = document.getElementById('btnSkipIntro');
-        const btnEnter = document.getElementById('btnEnterStore');
-        const btnReplay = document.getElementById('btnReplayIntro');
+    function initBookSplashAnimation() {
+        const overlay = document.getElementById('bookIntroSplash');
+        const splashBook = document.getElementById('splashBook');
         const heroBook = document.getElementById('heroInteractiveBook');
 
-        if (!overlay || !introBook) return;
+        if (!overlay || !splashBook) return;
 
-        let isBookOpen = false;
         let audioCtx = null;
 
         // Realistic Page Rustle Synthesis via HTML5 Web Audio API
-        function playPageTurnSound() {
+        function playRustle(intensity = 0.12, duration = 0.12) {
             try {
                 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
                 if (!AudioContextClass) return;
                 if (!audioCtx) audioCtx = new AudioContextClass();
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
 
-                const bufferSize = audioCtx.sampleRate * 0.14; // 140ms
+                const bufferSize = audioCtx.sampleRate * duration;
                 const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
                 const data = buffer.getChannelData(0);
                 for (let i = 0; i < bufferSize; i++) {
@@ -566,96 +557,77 @@
 
                 const filter = audioCtx.createBiquadFilter();
                 filter.type = 'bandpass';
-                filter.frequency.setValueAtTime(1400, audioCtx.currentTime);
-                filter.Q.setValueAtTime(1.5, audioCtx.currentTime);
+                filter.frequency.setValueAtTime(1300, audioCtx.currentTime);
+                filter.Q.setValueAtTime(1.4, audioCtx.currentTime);
 
                 const gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.14);
+                gainNode.gain.setValueAtTime(intensity, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
                 noise.connect(filter);
                 filter.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
                 noise.start();
-            } catch (e) {
-                // Audio synthesis optional; gracefully bypass if user gesture needed
-            }
-        }
-
-        function openBook() {
-            if (isBookOpen) return;
-            isBookOpen = true;
-            introBook.classList.add('book-open');
-            if (btnText) btnText.textContent = 'Close Book';
-            playPageTurnSound();
-            setTimeout(playPageTurnSound, 400);
-            setTimeout(playPageTurnSound, 750);
-        }
-
-        function closeBook() {
-            if (!isBookOpen) return;
-            isBookOpen = false;
-            introBook.classList.remove('book-open');
-            if (btnText) btnText.textContent = 'Open Book';
-            playPageTurnSound();
-        }
-
-        function showExperience(autoOpen = true) {
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            if (autoOpen) {
-                // Smooth introductory suspense pause then unlatch & open
-                setTimeout(() => {
-                    openBook();
-                }, 400);
-            }
-        }
-
-        function dismissExperience() {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = '';
-            try {
-                sessionStorage.setItem('bookstore_intro_seen', 'true');
             } catch (e) {}
         }
 
-        // Event Listeners
-        if (btnSkip) btnSkip.addEventListener('click', dismissExperience);
-        if (btnEnter) btnEnter.addEventListener('click', dismissExperience);
+        function runAnimation() {
+            overlay.classList.remove('hidden');
+            overlay.classList.remove('splash-fade-out');
+            splashBook.classList.remove('book-opened');
+            document.body.style.overflow = 'hidden';
 
-        if (frontCover) {
-            frontCover.addEventListener('click', () => {
-                if (isBookOpen) closeBook();
-                else openBook();
-            });
+            // 1. Smooth open
+            setTimeout(() => {
+                splashBook.classList.add('book-opened');
+                playRustle(0.14, 0.15);
+                setTimeout(() => playRustle(0.09, 0.1), 220);
+                setTimeout(() => playRustle(0.08, 0.1), 380);
+            }, 300);
+
+            // 2. Smooth close
+            setTimeout(() => {
+                splashBook.classList.remove('book-opened');
+                playRustle(0.12, 0.14);
+            }, 1400);
+
+            // 3. Fade out & reveal home page automatically
+            setTimeout(() => {
+                overlay.classList.add('splash-fade-out');
+                document.body.style.overflow = '';
+                try {
+                    sessionStorage.setItem('bookstore_splash_seen', 'true');
+                } catch (e) {}
+            }, 1900);
+
+            // 4. Fully hide
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 2500);
         }
 
-        if (btnToggle) {
-            btnToggle.addEventListener('click', () => {
-                if (isBookOpen) closeBook();
-                else openBook();
-            });
-        }
+        // If user clicks anywhere on splash during animation, dissolve immediately
+        overlay.addEventListener('click', () => {
+            overlay.classList.add('splash-fade-out');
+            document.body.style.overflow = '';
+            try {
+                sessionStorage.setItem('bookstore_splash_seen', 'true');
+            } catch (e) {}
+            setTimeout(() => overlay.classList.add('hidden'), 650);
+        });
 
-        if (btnReplay) {
-            btnReplay.addEventListener('click', (e) => {
-                e.preventDefault();
-                showExperience(true);
-            });
-        }
-
+        // Hero book replay trigger (if clicked on catalog page)
         if (heroBook) {
             heroBook.addEventListener('click', (e) => {
                 e.preventDefault();
-                showExperience(true);
+                runAnimation();
             });
         }
 
-        // Auto trigger on initial visit
-        const hasSeenIntro = sessionStorage.getItem('bookstore_intro_seen');
-        if (!hasSeenIntro) {
-            // First time in session: Welcome with opening book!
-            showExperience(true);
+        // Check session storage so it doesn't replay on every single internal click
+        const hasSeenSplash = sessionStorage.getItem('bookstore_splash_seen');
+        if (!hasSeenSplash) {
+            runAnimation();
         } else {
             overlay.classList.add('hidden');
         }
@@ -675,7 +647,7 @@
         initAdminLivePreview();
         initTableFilters();
         initMobileNav();
-        initBookOpeningExperience();
+        initBookSplashAnimation();
     });
 
 })();

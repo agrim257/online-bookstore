@@ -59,14 +59,14 @@
                         <div style="font-family: 'Cinzel', serif; font-size: 0.65rem; color: #d4af37; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.25rem;">
                             Grand Edition
                         </div>
-                        <div style="margin-top: 1.5rem; font-size: 0.75rem; color: #fbbf24; display: flex; align-items: center; gap: 0.35rem; background: rgba(0,0,0,0.3); padding: 0.3rem 0.7rem; border-radius: 20px; border: 1px solid rgba(251, 191, 36, 0.4);">
-                            <i class="fas fa-sparkles"></i> Click to Open
+                        <div style="margin-top: 1.5rem; font-size: 0.75rem; color: #818cf8; display: flex; align-items: center; gap: 0.35rem; background: rgba(99, 102, 241, 0.15); padding: 0.3rem 0.75rem; border-radius: 20px; border: 1px solid rgba(99, 102, 241, 0.3);">
+                            <i class="fas fa-sparkles"></i> Featured Edition
                         </div>
                     </div>
                     <div class="hero-book-pages-stack"></div>
                 </div>
                 <div class="hero-book-hint">
-                    <i class="fas fa-hand-pointer" style="color: var(--accent-primary);"></i> Click book to open grand experience
+                    <i class="fas fa-award" style="color: var(--accent-primary);"></i> Collector Grade Edition
                 </div>
             </div>
         </div>
